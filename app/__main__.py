@@ -19,11 +19,14 @@ async def main():
 
     while True:
         print("Checking for available appointments...")
+        url = f"https://service.berlin.de/terminvereinbarung/termin/all/{settings.appointment_id}/"
         available_appointments = await check_available_appointments(
-            url=f"https://service.berlin.de/terminvereinbarung/termin/all/{settings.appointment_id}/",
+            url=url,
             playwright_headless=settings.playwright_headless,
         )
-        message = compose_message(available_appointments)
+        message = compose_message(
+            available_appointments=available_appointments, url=url
+        )
 
         if message != previous_message:
             print("News! Sending message...")
